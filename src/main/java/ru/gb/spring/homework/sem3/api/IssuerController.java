@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.exceptions.MaxAllowedBooksException;
+import ru.gb.spring.homework.sem3.service.MaxAllowedBooksException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.service.IssuerService;
 

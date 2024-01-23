@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.exceptions.IssuesByReaderException;
+import ru.gb.spring.homework.sem3.service.IssuesByReaderException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.service.ReaderService;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,8 +23,8 @@ public class ReaderController {
     private final ReaderService service;
 
     @GetMapping
-    public List<Reader> getBookAll() {
-        return service.getBookAll();
+    public List<Reader> getReadersAll() {
+        return service.getReadersAll();
     }
 
     /**
