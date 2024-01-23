@@ -1,0 +1,3 @@
+application:
+  issue:
+    max-allowed-books: 2

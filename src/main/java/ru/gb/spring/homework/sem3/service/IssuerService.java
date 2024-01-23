@@ -4,15 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.gb.spring.homework.sem3.api.IssueRequest;
-import ru.gb.spring.homework.sem3.exceptions.MaxAllowedBooksException;
+import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
+import ru.gb.spring.homework.sem3.model.Reader;
+import ru.gb.spring.homework.sem3.model.dto.IssueDto;
 import ru.gb.spring.homework.sem3.repository.BookRepository;
 import ru.gb.spring.homework.sem3.repository.IssueRepository;
 import ru.gb.spring.homework.sem3.repository.ReaderRepository;
 
+
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +72,40 @@ public class IssuerService {
                 new NoSuchElementException("Не найдена выдача книги с идентификатором \"" + id + "\""));
         issue.setReturnedAt(LocalDateTime.now());
         return issue;
+    }
+
+    public List<Issue> getIssuesAll() {
+        return issueRepository.getAll();
+    }
+
+    public List<Book> getBooksWhichHaveNotBeenReturnedByReaderId(Long readerId) {
+        List<Book> books = new ArrayList<>();
+        List<Book> booksAll = bookRepository.getAll();
+        issueRepository.getIssuesByReader(readerId).stream()
+                .filter(it -> it.getReturnedAt() == null)
+                .map(Issue::getBookId)
+                .forEach(it -> {
+                    for (Book book: booksAll) {
+                        if (Objects.equals(book.getId(), it)) {
+                            books.add(book);
+                        }
+                    }
+                });
+        return books;
+    }
+
+    public IssueDto getIssueDto(Issue issue) {
+        Book book = bookRepository.getById(issue.getBookId()).orElseThrow(() ->
+                new NoSuchElementException("Не найдена книга с идентификатором \"" + issue.getBookId() + "\""));
+        Reader reader = readerRepository.getById(issue.getReaderId()).orElseThrow(() ->
+                new NoSuchElementException("Не найден читатель с идентификатором \"" + issue.getReaderId() + "\""));
+        Long id = issue.getId();
+        Long bookId = issue.getBookId();
+        String bookName = book.getName();
+        Long readerId = issue.getReaderId();
+        String readerName = reader.getName();
+        LocalDateTime issuedAt = issue.getIssuedAt();
+        LocalDateTime returnedAt = issue.getReturnedAt();
+        return new IssueDto(id, bookId, bookName, readerId, readerName, issuedAt, returnedAt);
     }
 }
