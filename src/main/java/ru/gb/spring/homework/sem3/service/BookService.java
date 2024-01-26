@@ -15,24 +15,24 @@ public class BookService {
 
     private final BookRepository repository;
 
-    public List<Book> getBooksAll() {
-        return repository.getAll();
+    public List<Book> findAll() {
+        return repository.findAll();
     }
 
-    public Book getBookById(Long id) {
-        return repository.getById(id)
+    public Book findById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Не найдена книга с идентификатором \"" + id + "\""));
     }
 
-    public Book deleteBookById(Long id) {
-        Book book = getBookById(id);
-        repository.deleteById(book);
+    public Book delete(Long id) {
+        Book book = findById(id);
+        repository.delete(book);
         return book;
     }
 
-    public Book addBook(BookRequest request) {
+    public Book add(BookRequest request) {
         Book book = new Book(request.getName());
-        repository.add(book);
+        repository.save(book);
         return book;
     }
 }

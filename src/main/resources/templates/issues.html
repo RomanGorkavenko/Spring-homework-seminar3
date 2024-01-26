@@ -26,8 +26,8 @@
                 <th>Дата возврата</th>
             </tr>
             <tr th:each="issue: ${issues}">
-                <td th:text="${issue.getBookName()}"></td>
-                <td><a th:href="@{/ui/reader/{id}(id=${issue.getReaderId()})}" th:text="${issue.getReaderName()}"></a></td>
+                <td th:text="${issue.getBook().getName()}"></td>
+                <td><a th:href="@{/ui/reader/{id}(id=${issue.getReader().getId()})}" th:text="${issue.getReader().name}"></a></td>
                 <td th:text="${issue.getIssuedAt()}"></td>
                 <td th:text="${issue.getReturnedAt() == null ? '' : issue.getReturnedAt()}"></td>
             </tr>

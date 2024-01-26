@@ -38,7 +38,21 @@ header {
     min-height: 600px;
     margin-top: 20px;
     margin-left: 40px;
+    font-size: 1.2em;
     font-family: "Book Antiqua", sans-serif;
+}
+
+.block-content ul li {
+    margin-left: 20px;
+}
+
+.block-content p {
+    font-weight: normal;
+}
+
+.block-content span {
+    font-weight: bold;
+    font-size: 1.3em;
 }
 
 .block-content table {

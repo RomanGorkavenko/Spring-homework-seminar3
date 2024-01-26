@@ -7,7 +7,6 @@ import ru.gb.spring.homework.sem3.api.IssueRequest;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
-import ru.gb.spring.homework.sem3.model.dto.IssueDto;
 import ru.gb.spring.homework.sem3.repository.BookRepository;
 import ru.gb.spring.homework.sem3.repository.IssueRepository;
 import ru.gb.spring.homework.sem3.repository.ReaderRepository;
@@ -21,6 +20,7 @@ import java.util.*;
 public class IssuerService {
 
     /**
+     * Задание для 3 семинара
      * 3.3** Пункт 2.1 расширить параметром, сколько книг может быть на руках у пользователя.
      * Должно задаваться в конфигурации (параметр application.issue.max-allowed-books).
      * Если параметр не задан - то использовать значение 1.
@@ -37,75 +37,46 @@ public class IssuerService {
         final Long readerId = request.getReaderId();
         final Long bookId = request.getBookId();
 
-        bookRepository.getById(request.getBookId())
+        Book book = bookRepository.findById(bookId)
                 .orElseThrow(() ->
                         new NoSuchElementException("Не найдена книга с идентификатором \"" + bookId + "\""));
-        readerRepository.getById(request.getReaderId())
+        Reader reader = readerRepository.findById(readerId)
                 .orElseThrow(() ->
                         new NoSuchElementException("Не найден читатель с идентификатором \"" + readerId + "\""));
 
-        // region 2.1 В сервис IssueService добавить проверку, что у пользователя на руках нет книг.
+        // 2.1 В сервис IssueService добавить проверку, что у пользователя на руках нет книг.
         // Если есть - не выдавать книгу (статус ответа - 409 Conflict)
-        List<Issue> readerHasBook = issueRepository.getIssuesByReader(request.getReaderId()).stream()
-                // Замечание: возвращенные книги НЕ нужно учитывать при 2.1
-                .filter(it -> it.getReturnedAt() == null)
-                .toList();
-
+        // Замечание: возвращенные книги НЕ нужно учитывать при 2.1
+        List<Issue> readerHasBook = issueRepository.findByReaderAndReturnedAtNull(reader);
         if (readerHasBook.size() == maxAllowedBooks) {
             throw new MaxAllowedBooksException("Достигнут лимит книг читателем с идентификатором \"" + readerId + "\"");
         }
-        // endregion
 
-        Issue issue = new Issue(request.getBookId(), request.getReaderId());
+        Issue issue = new Issue(book, reader);
         issueRepository.save(issue);
 
         return issue;
     }
 
-    public Issue getIssueById(Long id) {
-        return issueRepository.getById(id).orElseThrow(() ->
+    public Issue findById(Long id) {
+        return issueRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Не найдена выдача книги с идентификатором \"" + id + "\""));
     }
 
     public Issue updateIssueReturnedAt(Long id) {
-        Issue issue = issueRepository.getById(id).orElseThrow(() ->
+        Issue issue = issueRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Не найдена выдача книги с идентификатором \"" + id + "\""));
         issue.setReturnedAt(LocalDateTime.now());
+        issueRepository.save(issue);
         return issue;
     }
 
-    public List<Issue> getIssuesAll() {
-        return issueRepository.getAll();
+    public List<Issue> findAll() {
+        return issueRepository.findAll();
     }
 
-    public List<Book> getBooksWhichHaveNotBeenReturnedByReaderId(Long readerId) {
-        List<Book> books = new ArrayList<>();
-        List<Book> booksAll = bookRepository.getAll();
-        issueRepository.getIssuesByReader(readerId).stream()
-                .filter(it -> it.getReturnedAt() == null)
-                .map(Issue::getBookId)
-                .forEach(it -> {
-                    for (Book book: booksAll) {
-                        if (Objects.equals(book.getId(), it)) {
-                            books.add(book);
-                        }
-                    }
-                });
-        return books;
+    public List<Book> findBookByReaderAndReturnedAtNull(Reader reader) {
+        return issueRepository.findBookByReaderAndReturnedAtNull(reader);
     }
 
-    public IssueDto getIssueDto(Issue issue) {
-        Book book = bookRepository.getById(issue.getBookId()).orElseThrow(() ->
-                new NoSuchElementException("Не найдена книга с идентификатором \"" + issue.getBookId() + "\""));
-        Reader reader = readerRepository.getById(issue.getReaderId()).orElseThrow(() ->
-                new NoSuchElementException("Не найден читатель с идентификатором \"" + issue.getReaderId() + "\""));
-        Long id = issue.getId();
-        Long bookId = issue.getBookId();
-        String bookName = book.getName();
-        Long readerId = issue.getReaderId();
-        String readerName = reader.getName();
-        LocalDateTime issuedAt = issue.getIssuedAt();
-        LocalDateTime returnedAt = issue.getReturnedAt();
-        return new IssueDto(id, bookId, bookName, readerId, readerName, issuedAt, returnedAt);
-    }
 }

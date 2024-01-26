@@ -40,14 +40,15 @@ public class IssuerController {
     }
 
     /**
+     * Задание для 3 семинара
      * 1.3 В контроллере IssueController добавить ресурс
      * GET /issue/{id} - получить описание факта выдачи
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Issue> getIssueById(@PathVariable("id") Long id) {
+    public ResponseEntity<Issue> findById(@PathVariable("id") Long id) {
         Issue issue;
         try {
-            issue = service.getIssueById(id);
+            issue = service.findById(id);
         } catch (NoSuchElementException e) {
             log.warn(e.getMessage());
             return ResponseEntity.notFound().build();
@@ -56,6 +57,11 @@ public class IssuerController {
         return ResponseEntity.ok(issue);
     }
 
+    /**
+     * Задание для 3 семинара
+     * 3.2* К ресурс POST /issue добавить запрос PUT /issue/{issueId},
+     * который закрывает факт выдачи. (т.е. проставляет returned_at в Issue).
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Issue> updateIssueReturnedAt(@PathVariable("id") Long id) {
         Issue issue;
