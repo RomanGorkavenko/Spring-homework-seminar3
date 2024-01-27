@@ -1,46 +1,29 @@
 package ru.gb.spring.homework.sem3.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
+import ru.gb.spring.homework.sem3.model.Reader;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+/**
+ * Задание для 5 семинара.
+ * 1.3 Заменить самописные репозитории на JPA-репозитории
+ */
 @Repository
-public class IssueRepository {
+public interface IssueRepository extends JpaRepository<Issue, Long> {
 
-    private final List<Issue> issues;
+    List<Issue> findByReaderAndReturnedAtNull(Reader reader);
 
-    public IssueRepository() {
-        this.issues = new ArrayList<>();
-    }
-
-    public void save(Issue issue) {
-        issues.add(issue);
-    }
-
-    public Optional<Issue> getById(Long id) {
-        return issues.stream()
-                .filter(it -> it.getId().equals(id))
-                .findFirst();
-    }
-
-    public List<Issue> getAll() {
-        return List.copyOf(issues);
-    }
-
-    /**
-     * По аналогии с @Query запросом в базу в репозитории,
-     * чтобы получать не все Issue, а только нужную выборку.
-     * Отдаем работу БД.
-     * Вопрос, на сколько это правильно? Или лучше получать все Issue из БД
-     * и внутри приложения работать с коллекцией.
-     */
-    public List<Issue> getIssuesByReader(Long readerId) {
-        return issues.stream()
-                .filter(it -> it.getReaderId().equals(readerId))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
+    @Query("""
+            SELECT i.book
+            FROM Issue i
+            WHERE i.reader = :reader
+            AND i.returnedAt IS NULL
+            """)
+    List<Book> findBookByReaderAndReturnedAtNull(@Param("reader") Reader reader);
 }

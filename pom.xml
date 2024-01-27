@@ -28,6 +28,25 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+<!--    Задание для 5 семинара.
+        1.1 Подключить spring-boot-starter-data-jpa (и необходимый драйвер)
+        и указать параметры соединения в application.yml-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -39,6 +58,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -60,6 +80,21 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:55322/mydb</url>
+                    <user>myuser</user>
+                    <password>6503</password>
+                    <schemas>
+                        <schema>public</schema>
+                    </schemas>
+                    <cleanDisabled>false</cleanDisabled>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

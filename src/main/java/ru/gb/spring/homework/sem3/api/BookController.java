@@ -20,18 +20,19 @@ public class BookController {
     private final BookService service;
 
     @GetMapping
-    public List<Book> getBookAll() {
-        return service.getBooksAll();
+    public List<Book> findAll() {
+        return service.findAll();
     }
 
     /**
+     * Задание для 3 семинара
      * 1.1 GET /book/{id} - получить описание книги.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getById(@PathVariable("id") Long id) {
         Book book;
         try {
-            book = service.getBookById(id);
+            book = service.findById(id);
         } catch (NoSuchElementException e) {
             log.warn(e.getMessage());
             return ResponseEntity.notFound().build();
@@ -41,13 +42,14 @@ public class BookController {
     }
 
     /**
+     * Задание для 3 семинара
      * 1.1 DELETE /book/{id} - удалить книгу.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Book> deleteBookById(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> delete(@PathVariable("id") Long id) {
         Book book;
         try {
-            book = service.deleteBookById(id);
+            book = service.delete(id);
         } catch (NoSuchElementException e) {
             log.warn(e.getMessage());
             return ResponseEntity.notFound().build();
@@ -57,10 +59,11 @@ public class BookController {
     }
 
     /**
+     * Задание для 3 семинара
      * 1.1 POST /book - создать книгу.
      */
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody BookRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addBook(request));
+    public ResponseEntity<Book> add(@RequestBody BookRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(request));
     }
 }

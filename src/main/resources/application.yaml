@@ -1,3 +1,16 @@
 application:
   issue:
     max-allowed-books: 2
+
+# Задание для 5 семинара.
+# 1. Подключить базу данных к проекту "библиотека", который разрабатывали на прошлых уроках.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:55322/mydb?currentSchema=public
+    username: myuser
+    password: 6503
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
