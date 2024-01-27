@@ -1,20 +1,24 @@
 package ru.gb.spring.homework.sem3.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.service.BookService;
 import ru.gb.spring.homework.sem3.service.IssuerService;
+import ru.gb.spring.homework.sem3.service.MaxAllowedBooksException;
 import ru.gb.spring.homework.sem3.service.ReaderService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+@Slf4j
 @Controller
 @RequestMapping("/ui")
 @RequiredArgsConstructor
@@ -51,8 +55,14 @@ public class UiController {
      */
     @GetMapping("/issues")
     public String getAllIssues(Model model) {
+        IssueRequest issueRequest = new IssueRequest();
         List<Issue> issues = issuerService.findAll();
+        List<Reader> readers = readerService.findAll();
+        List<Book> books = bookService.findAll();
         model.addAttribute("issues", issues);
+        model.addAttribute("readers", readers);
+        model.addAttribute("books", books);
+        model.addAttribute("issueRequest", issueRequest);
         return "issues";
     }
 
@@ -68,5 +78,15 @@ public class UiController {
         model.addAttribute("reader", reader);
         model.addAttribute("books", books);
         return "reader";
+    }
+
+    @PostMapping("/issues")
+    public String addIssues(@ModelAttribute("issueRequest") IssueRequest issueRequest) {
+        try {
+            issuerService.issue(issueRequest);
+        } catch (NoSuchElementException | MaxAllowedBooksException e) {
+            log.warn(e.getMessage());
+        }
+        return "redirect:/ui/issues";
     }
 }

@@ -14,9 +14,39 @@
 <div id="block-body">
 <!--в тегах header прописана наша шапка-->
     <header th:insert="~{header :: header}"></header>
-    <!--разметка для логотипа-->
 
     <div id="block-content" class="block-content">
+
+        <div class="container">
+            <form th:action="@{/ui/issues}" th:object="${issueRequest}" method="post">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="books">Книга</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="books" name="book" th:field="*{bookId}">
+                            <option th:each="book: ${books}" th:value="${book.getId()}" th:text="${book.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="readers">Читатель</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="readers" name="reader" th:field="*{readerId}">
+                            <option th:value="${reader.getId()}" th:each="reader: ${readers}" th:text="${reader.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Добавить запись">
+                </div>
+            </form>
+        </div>
+
+        <br>
+
         <h1>Issues:</h1>
         <table>
             <tr>
@@ -35,8 +65,6 @@
     </div>
 
 </div>
-
-
 
 </body>
 </html>
