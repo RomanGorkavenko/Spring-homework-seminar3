@@ -2,8 +2,6 @@ package ru.gb.spring.homework.sem3.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +32,16 @@ public class UiController {
      */
     @GetMapping("/books")
     public String getAllBooks(Model model) {
+        BookRequest bookRequest = new BookRequest();
+        model.addAttribute("bookRequest", bookRequest);
         model.addAttribute("books", bookService.findAll());
         return "books";
+    }
+
+    @PostMapping("/books")
+    public String addBooks(@ModelAttribute("bookRequest") BookRequest bookRequest) {
+        bookService.add(bookRequest);
+        return "redirect:/ui/books";
     }
 
     /**
@@ -44,8 +50,16 @@ public class UiController {
      */
     @GetMapping("/readers")
     public String getAllReaders(Model model) {
+        ReaderRequest readerRequest = new ReaderRequest();
         model.addAttribute("readers", readerService.findAll());
+        model.addAttribute("readerRequest", readerRequest);
         return "readers";
+    }
+
+    @PostMapping("/readers")
+    public String addReader(@ModelAttribute("readerRequest") ReaderRequest readerRequest) {
+        readerService.add(readerRequest);
+        return "redirect:/ui/readers";
     }
 
     /**
@@ -64,6 +78,19 @@ public class UiController {
         model.addAttribute("books", books);
         model.addAttribute("issueRequest", issueRequest);
         return "issues";
+    }
+
+    @PostMapping("/issues/{bookId}/{readerId}")
+    public String updateIssueReturnedAt(@PathVariable("bookId") Long bookId, @PathVariable("readerId") Long readerId) {
+        List<Issue> issues = issuerService.findIssueByBookIdAndReaderIdAndReturnedAtNull(bookId, readerId);
+        Issue issue = issues.getFirst();
+        try {
+            issuerService.updateIssueReturnedAt(issue.getId());
+        } catch (NoSuchElementException e) {
+            log.warn(e.getMessage());
+        }
+
+        return "redirect:/ui/reader/" + readerId;
     }
 
     /**

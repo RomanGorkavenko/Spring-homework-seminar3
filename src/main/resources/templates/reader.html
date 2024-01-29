@@ -14,15 +14,34 @@
 <div id="block-body">
     <header th:insert="~{header :: header}"></header>
     <div id="block-content" class="block-content">
+
         <h1>Читатель:</h1>
         <br/>
         <p>ID: <span th:text="${reader.getId()}"></span></p>
         <p>Name: <span th:text="${reader.getName()}"></span></p>
         <br/>
-        <h3>Список всех книг:</h3>
-        <ul th:each="book: ${books}">
-            <li th:text="${book.getName()}"></li>
-        </ul>
+<!--        <h3>Список всех книг:</h3>-->
+<!--        <ul th:each="book: ${books}">-->
+<!--            <li th:text="${book.getName()}">-->
+<!--                <a th:href="@{'/ui/issues/' + ${book.getId()}}">4444</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+        <table>
+            <tr>
+                <th>Список всех книг</th>
+                <th></th>
+            </tr>
+            <tr th:each="book: ${books}">
+                <td th:text="${book.getName()}"></td>
+                <td>
+                    <form th:action="@{'/ui/issues/' + ${book.getId()} + '/' + ${reader.getId()}}" method="post">
+                        <div class="row">
+                            <input type="submit" value="Вернуть книгу">
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>

@@ -15,37 +15,18 @@
     <div id="block-content" class="block-content">
 
         <div class="container">
-            <form action="/ui/issues">
+            <form th:action="@{/ui/readers}" th:object="${readerRequest}" method="post">
                 <div class="row">
                     <div class="col-25">
-                        <label for="fname">First Name</label>
+                        <label for="name">Имя</label>
                     </div>
                     <div class="col-75">
-                        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+                        <input th:field="*{name}" type="text" id="name" name="firstname" placeholder="Введите имя читателя.">
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-25">
-                        <label for="lname">Last Name</label>
-                    </div>
-                    <div class="col-75">
-                        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-25">
-                        <label for="country">Country</label>
-                    </div>
-                    <div class="col-75">
-                        <select id="country" name="country">
-                            <option value="australia">Australia</option>
-                            <option value="canada">Canada</option>
-                            <option value="usa">USA</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Добавить читателя">
                 </div>
             </form>
         </div>

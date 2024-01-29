@@ -79,4 +79,7 @@ public class IssuerService {
         return issueRepository.findBookByReaderAndReturnedAtNull(reader);
     }
 
+    public List<Issue> findIssueByBookIdAndReaderIdAndReturnedAtNull(Long bookId, Long readerId) {
+        return issueRepository.findIssueByBook_IdAndReader_IdAndReturnedAtNull(bookId, readerId);
+    }
 }

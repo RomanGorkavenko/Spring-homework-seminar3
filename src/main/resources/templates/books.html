@@ -13,6 +13,26 @@
 <div id="block-body">
     <header th:insert="~{header :: header}"></header>
     <div id="block-content" class="block-content">
+
+        <div class="container">
+            <form th:action="@{/ui/books}" th:object="${bookRequest}" method="post">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="name">Название</label>
+                    </div>
+                    <div class="col-75">
+                        <input th:field="*{name}" type="text" id="name" name="firstname" placeholder="Введите названия книги.">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="submit" value="Добавить книгу">
+                </div>
+            </form>
+        </div>
+
+        <br>
+
         <h1>Список всех книг:</h1>
         <ul th:each="book: ${books}">
             <li th:text="${book.getName()}"></li>

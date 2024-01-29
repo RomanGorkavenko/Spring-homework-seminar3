@@ -89,7 +89,7 @@
                     <user>myuser</user>
                     <password>6503</password>
                     <schemas>
-                        <schema>public</schema>
+                        <schema>library</schema>
                     </schemas>
                     <cleanDisabled>false</cleanDisabled>
                 </configuration>
