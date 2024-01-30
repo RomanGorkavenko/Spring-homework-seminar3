@@ -47,6 +47,8 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!--Задание для 6 семинара
+        1. Подключить OpenAPI 3 и swagger к проекту с библиотекой-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

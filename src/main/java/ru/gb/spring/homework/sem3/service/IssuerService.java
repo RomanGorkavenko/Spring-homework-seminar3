@@ -1,9 +1,9 @@
 package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.gb.spring.homework.sem3.api.IssueRequest;
+import ru.gb.spring.homework.sem3.conf.IssueProperties;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
@@ -25,9 +25,10 @@ public class IssuerService {
      * Должно задаваться в конфигурации (параметр application.issue.max-allowed-books).
      * Если параметр не задан - то использовать значение 1.
      */
-    @Value("${application.issue.max-allowed-books:1}")
-    private int maxAllowedBooks;
+//    @Value("${application.issue.max-allowed-books:1}")
+//    private int maxAllowedBooks;
 
+    private final IssueProperties issueProperties;
     private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
     private final IssueRepository issueRepository;
@@ -48,7 +49,7 @@ public class IssuerService {
         // Если есть - не выдавать книгу (статус ответа - 409 Conflict)
         // Замечание: возвращенные книги НЕ нужно учитывать при 2.1
         List<Issue> readerHasBook = issueRepository.findByReaderAndReturnedAtNull(reader);
-        if (readerHasBook.size() == maxAllowedBooks) {
+        if (readerHasBook.size() == issueProperties.getMaxAllowedBooks()) {
             throw new MaxAllowedBooksException("Достигнут лимит книг читателем с идентификатором \"" + readerId + "\"");
         }
 

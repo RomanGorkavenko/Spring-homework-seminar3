@@ -1,5 +1,6 @@
 package ru.gb.spring.homework.sem3.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,11 +15,15 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Table(name = "books")
+@Schema(title = "Книга")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(title = "Идентификатор книги", example = "1")
     private Long id;
+
+    @Schema(title = "Название книги", example = "Head First Java")
     private String name;
 
     public Book(String name) {
