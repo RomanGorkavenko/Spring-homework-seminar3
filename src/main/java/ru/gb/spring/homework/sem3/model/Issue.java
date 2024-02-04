@@ -1,5 +1,6 @@
 package ru.gb.spring.homework.sem3.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +17,12 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Table(name = "issues")
+@Schema(title = "Выдача книг")
 public class Issue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(title = "Идентификатор выдачи", example = "1")
     private Long id;
 
     @ManyToOne
@@ -33,7 +36,10 @@ public class Issue {
     /**
      * 3.1* В Issue поле timestamp разбить на 2: issued_at, returned_at - дата выдачи и дата возврата
      */
+    @Schema(title = "Дата выдачи", example = "2024-01-26")
     private LocalDateTime issuedAt;
+
+    @Schema(title = "Дата возврата", example = "2024-01-28")
     private LocalDateTime returnedAt;
 
     public Issue(Book book, Reader reader) {

@@ -23,10 +23,10 @@ CREATE TABLE readers
 );
 
 ALTER TABLE IF EXISTS issues
-    ADD CONSTRAINT fk_book_id_books FOREIGN KEY (book_id) REFERENCES books;
+    ADD CONSTRAINT fk_book_id_books FOREIGN KEY (book_id) REFERENCES books ON DELETE CASCADE;
 
 ALTER TABLE IF EXISTS issues
-    ADD CONSTRAINT fk_reader_id_readers FOREIGN KEY (reader_id) REFERENCES readers;
+    ADD CONSTRAINT fk_reader_id_readers FOREIGN KEY (reader_id) REFERENCES readers ON DELETE CASCADE;
 
 INSERT INTO readers (name)
 VALUES ('John'),

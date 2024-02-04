@@ -41,6 +41,10 @@ public class ReaderService {
     public Set<Issue> getIssuesByReader(Long id) {
         Reader reader = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Не найден читатель с идентификатором \"" + id + "\""));
-        return reader.getIssues();
+        Set<Issue> issuesByReader = reader.getIssues();
+        if (issuesByReader.isEmpty()) {
+            throw new IssuesByReaderException("Не найдены выдачи книг у читателя с идентификатором \"" + id + "\"");
+        }
+        return issuesByReader;
     }
 }

@@ -26,4 +26,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
             AND i.returnedAt IS NULL
             """)
     List<Book> findBookByReaderAndReturnedAtNull(@Param("reader") Reader reader);
+
+//    @Query("select i from Issue i where i.book.id = ?1 and i.reader.id = ?2 and i.returnedAt is null")
+    List<Issue> findIssueByBook_IdAndReader_IdAndReturnedAtNull(Long bookId, Long ReaderId);
 }

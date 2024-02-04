@@ -1,6 +1,7 @@
 package ru.gb.spring.homework.sem3.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,14 +17,19 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "readers")
+@Schema(title = "Читатель")
 public class Reader {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(title = "Идентификатор читателя", example = "1")
     private Long id;
+
+    @Schema(title = "Имя читателя", example = "John")
     private String name;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "reader")
     private Set<Issue> issues;
 
