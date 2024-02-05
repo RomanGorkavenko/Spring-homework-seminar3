@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,7 +16,7 @@
     <header th:insert="~{header :: header}"></header>
     <div id="block-content" class="block-content">
 
-        <div class="container">
+        <div sec:authorize="hasAuthority('ADMIN')" class="container">
             <form th:action="@{/ui/books}" th:object="${bookRequest}" method="post">
                 <div class="row">
                     <div class="col-25">

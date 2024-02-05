@@ -2,16 +2,14 @@ package ru.gb.spring.homework.sem3.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
-import ru.gb.spring.homework.sem3.service.BookService;
-import ru.gb.spring.homework.sem3.service.IssuerService;
-import ru.gb.spring.homework.sem3.service.MaxAllowedBooksException;
-import ru.gb.spring.homework.sem3.service.ReaderService;
+import ru.gb.spring.homework.sem3.service.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,19 +23,25 @@ public class UiController {
     private final BookService bookService;
     private final ReaderService readerService;
     private final IssuerService issuerService;
+    private final UserService userService;
 
     /**
      * Задание для 4 семинара
      * 1.1 /ui/books - на странице должен отобразиться список всех доступных книг в системе
+     * Задание для 7 семинара
+     * Ресурсы книг (books) доступны всем авторизованным пользователям
      */
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/books")
     public String getAllBooks(Model model) {
         BookRequest bookRequest = new BookRequest();
         model.addAttribute("bookRequest", bookRequest);
         model.addAttribute("books", bookService.findAll());
+        log.warn(userService.findByLogin("admin").getRoles().toString());
         return "books";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/books")
     public String addBooks(@ModelAttribute("bookRequest") BookRequest bookRequest) {
         bookService.add(bookRequest);
@@ -47,15 +51,20 @@ public class UiController {
     /**
      * Задание для 4 семинара
      * 1.2 /ui/reader - аналогично 1.1
+     * Задание для 7 семинара
+     * 3.4* Ресурсы читателей (reader) доступны всем обладателям роли reader
      */
+    @PreAuthorize("hasAuthority('READER')")
     @GetMapping("/readers")
     public String getAllReaders(Model model) {
         ReaderRequest readerRequest = new ReaderRequest();
         model.addAttribute("readers", readerService.findAll());
         model.addAttribute("readerRequest", readerRequest);
+
         return "readers";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/readers")
     public String addReader(@ModelAttribute("readerRequest") ReaderRequest readerRequest) {
         readerService.add(readerRequest);
@@ -66,7 +75,10 @@ public class UiController {
      * Задание для 4 семинара
      * 1.3 /ui/issues - на странице отображается таблица, в которой есть столбцы
      * (книга, читатель, когда взял, когда вернул (если не вернул - пустая ячейка)).
+     * Задание для 7 семинара
+     * 3.3* Ресурсы выдачей (issue) доступны обладателям роли admin
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/issues")
     public String getAllIssues(Model model) {
         IssueRequest issueRequest = new IssueRequest();
@@ -80,6 +92,11 @@ public class UiController {
         return "issues";
     }
 
+    /**
+     * Задание для 7 семинара
+     * 3.4* Ресурсы читателей (reader) доступны всем обладателям роли reader
+     */
+    @PreAuthorize("hasAuthority('READER')")
     @PostMapping("/issues/{bookId}/{readerId}")
     public String updateIssueReturnedAt(@PathVariable("bookId") Long bookId, @PathVariable("readerId") Long readerId) {
         List<Issue> issues = issuerService.findIssueByBookIdAndReaderIdAndReturnedAtNull(bookId, readerId);
@@ -97,7 +114,10 @@ public class UiController {
      * Задание для 4 семинара
      * 1.4* /ui/reader/{id} - страница, где написано имя читателя с идентификатором id и перечислены книги,
      * которые на руках у этого читателя.
+     * Задание для 7 семинара
+     * 3.4* Ресурсы читателей (reader) доступны всем обладателям роли reader
      */
+    @PreAuthorize("hasAuthority('READER')")
     @GetMapping("/reader/{id}")
     public String getReaderById(@PathVariable("id") Long id, Model model) {
         Reader reader = readerService.findById(id);
@@ -107,6 +127,11 @@ public class UiController {
         return "reader";
     }
 
+    /**
+     * Задание для 7 семинара
+     * 3.3* Ресурсы выдачей (issue) доступны обладателям роли admin
+     */
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/issues")
     public String addIssues(@ModelAttribute("issueRequest") IssueRequest issueRequest) {
         try {
@@ -115,5 +140,10 @@ public class UiController {
             log.warn(e.getMessage());
         }
         return "redirect:/ui/issues";
+    }
+
+    @GetMapping("/403")
+    public String page403() {
+        return "403";
     }
 }

@@ -8,25 +8,12 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.model.Book;
-import ru.gb.spring.homework.sem3.service.BookService;
 
 import java.util.List;
 
-@Slf4j
-@RestController
-@RequestMapping("/book")
-@RequiredArgsConstructor
-@Tag(name = "Книги", description = "Book API")
-public class BookController {
-
-    private final BookService service;
+public interface BookController {
 
     /**
      * Задание для 6 семинара
@@ -37,10 +24,7 @@ public class BookController {
             @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Book.class)))
     })})
-    @GetMapping
-    public List<Book> findAll() {
-        return service.findAll();
-    }
+    List<Book> findAll();
 
     /**
      * Задание для 3 семинара
@@ -59,17 +43,12 @@ public class BookController {
                             schema = @Schema(example = "Не найдена книга с идентификатором \"ID\""))
             })
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable("id")
-                                         @Parameter(name = "id", description = "Идентификатор книги",
-                                         examples = {@ExampleObject(name = "Книга №1", value = "1",
-                                         description = "Найти книгу с идентификатором \"1\""),
-                                         @ExampleObject(name = "Книга №2", value = "2",
-                                         description = "Найти книгу  с идентификатором \"2\"")}
-                                         ) Long id) {
-        Book book = service.findById(id);
-        return ResponseEntity.ok(book);
-    }
+    ResponseEntity<Book> findById(@Parameter(name = "id", description = "Идентификатор книги",
+                                 examples = {@ExampleObject(name = "Книга №1", value = "1",
+                                 description = "Найти книгу с идентификатором \"1\""),
+                                 @ExampleObject(name = "Книга №2", value = "2",
+                                 description = "Найти книгу  с идентификатором \"2\"")}
+                                 ) Long id);
 
     /**
      * Задание для 3 семинара
@@ -88,17 +67,12 @@ public class BookController {
                             schema = @Schema(example = "Не найдена книга с идентификатором \"ID\""))
             })
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Book> delete(@PathVariable("id")
-                                       @Parameter(name = "id", description = "Идентификатор книги",
-                                       examples = {@ExampleObject(name = "Книга №1", value = "1",
-                                       description = "Удалить книгу с идентификатором \"1\""),
-                                       @ExampleObject(name = "Книга №2", value = "2",
-                                       description = "Удалить книгу  с идентификатором \"2\"")}
-                                       ) Long id) {
-        Book book = service.delete(id);
-        return ResponseEntity.ok(book);
-    }
+    ResponseEntity<Book> delete(@Parameter(name = "id", description = "Идентификатор книги",
+                               examples = {@ExampleObject(name = "Книга №1", value = "1",
+                               description = "Удалить книгу с идентификатором \"1\""),
+                               @ExampleObject(name = "Книга №2", value = "2",
+                               description = "Удалить книгу  с идентификатором \"2\"")}
+                               ) Long id);
 
     /**
      * Задание для 3 семинара
@@ -112,8 +86,5 @@ public class BookController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))
             })
     })
-    @PostMapping
-    public ResponseEntity<Book> add(@RequestBody BookRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(request));
-    }
+    ResponseEntity<Book> add(BookRequest request);
 }

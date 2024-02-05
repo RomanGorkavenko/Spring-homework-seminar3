@@ -8,43 +8,14 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.service.IssuesByReaderException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
-import ru.gb.spring.homework.sem3.service.ReaderService;
-
 
 import java.util.List;
 import java.util.Set;
 
-@Slf4j
-@RestController
-@RequestMapping("/reader")
-@RequiredArgsConstructor
-@Tag(name = "Читатели", description = "Reader Api")
-public class ReaderController {
-
-    private final ReaderService service;
-
-    /**
-     * Задание для 6 семинара
-     * Описать все контроллеры, endpoints и возвращаемые тела с помощью аннотаций OpenAPI 3
-     */
-    @Operation(summary = "Получить всех читателей", description = "Выдает список всех читателей")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Успешно", content = {
-            @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Reader.class)))
-    })})
-    @GetMapping
-    public List<Reader> findAll() {
-        return service.findAll();
-    }
+public interface ReaderController {
 
     /**
      * Задание для 3 семинара
@@ -56,24 +27,30 @@ public class ReaderController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Читатель найден", content = {
                     @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Reader.class))
+                            schema = @Schema(implementation = Reader.class))
             }),
             @ApiResponse(responseCode = "404", description = "Не найден читатель", content = {
                     @Content(mediaType = "text/plain",
                             schema = @Schema(example = "Не найден читатель с идентификатором \"ID\""))
             })
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Reader> findById(@PathVariable("id")
-                                           @Parameter(name = "id", description = "Идентификатор читателя",
-                                           examples = {@ExampleObject(name = "Читатель №1", value = "1",
-                                           description = "Найти читателя с идентификатором \"1\""),
-                                           @ExampleObject(name = "Читатель №2", value = "2",
-                                           description = "Найти читателя с идентификатором \"2\"")}
-                                           ) Long id) {
-        Reader reader = service.findById(id);
-        return ResponseEntity.ok(reader);
-    }
+    ResponseEntity<Reader> findById(@Parameter(name = "id", description = "Идентификатор читателя",
+                                   examples = {@ExampleObject(name = "Читатель №1", value = "1",
+                                   description = "Найти читателя с идентификатором \"1\""),
+                                   @ExampleObject(name = "Читатель №2", value = "2",
+                                   description = "Найти читателя с идентификатором \"2\"")}
+                                   ) Long id);
+
+    /**
+     * Задание для 6 семинара
+     * Описать все контроллеры, endpoints и возвращаемые тела с помощью аннотаций OpenAPI 3
+     */
+    @Operation(summary = "Получить всех читателей", description = "Выдает список всех читателей")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Успешно", content = {
+            @Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Reader.class)))
+    })})
+    List<Reader> findAll();
 
     /**
      * Задание для 3 семинара
@@ -92,17 +69,12 @@ public class ReaderController {
                             schema = @Schema(example = "Не найден читатель с идентификатором \"ID\""))
             })
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id")
-                                         @Parameter(name = "id", description = "Идентификатор читателя",
-                                         examples = {@ExampleObject(name = "Читатель №1", value = "1",
-                                         description = "Удалить читателя с идентификатором \"1\""),
-                                         @ExampleObject(name = "Читатель №2", value = "2",
-                                         description = "Удалить читателя с идентификатором \"2\"")}
-                                         ) Long id) {
-        service.delete(id);
-        return new ResponseEntity<>("Читатель с идентификатором \"" + id + "\" успешно удален.", HttpStatus.OK);
-    }
+    ResponseEntity<String> delete(@Parameter(name = "id", description = "Идентификатор читателя",
+                                 examples = {@ExampleObject(name = "Читатель №1", value = "1",
+                                 description = "Удалить читателя с идентификатором \"1\""),
+                                 @ExampleObject(name = "Читатель №2", value = "2",
+                                 description = "Удалить читателя с идентификатором \"2\"")}
+                                 ) Long id);
 
     /**
      * Задание для 3 семинара
@@ -116,10 +88,7 @@ public class ReaderController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Reader.class))
             })
     })
-    @PostMapping
-    public ResponseEntity<Reader> add(@RequestBody ReaderRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(request));
-    }
+    ResponseEntity<Reader> add(ReaderRequest request);
 
     /**
      * Задание для 3 семинара
@@ -132,7 +101,7 @@ public class ReaderController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Успешно", content = {
                     @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = Issue.class)))
+                            array = @ArraySchema(schema = @Schema(implementation = Issue.class)))
             }),
             @ApiResponse(responseCode = "404", description = "Не найдены выдачи книг у читателя", content = {
                     @Content(mediaType = "text/plain",
@@ -140,21 +109,10 @@ public class ReaderController {
                                     "Не найдены выдачи книг у читателя с идентификатором \"ID\""))
             })
     })
-    @GetMapping("/{id}/issues")
-    public ResponseEntity<Set<Issue>> getIssuesByReader(@PathVariable("id")
-                                        @Parameter(name = "id", description = "Идентификатор читателя",
-                                        examples = {@ExampleObject(name = "Читатель №1", value = "1",
-                                        description = "Показать список выдачи книг у читателя с идентификатором \"1\""),
-                                        @ExampleObject(name = "Читатель №2", value = "2",
-                                        description = "Показать список выдачи книг у читателя с идентификатором \"2\"")}
-                                        ) Long id) {
-        Set<Issue> issues = service.getIssuesByReader(id);
-        return ResponseEntity.status(HttpStatus.OK).body(issues);
-    }
-
-    @ExceptionHandler(IssuesByReaderException.class)
-    public ResponseEntity<String> issuesByReaderException(IssuesByReaderException e) {
-        log.warn(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
+    ResponseEntity<Set<Issue>> getIssuesByReader(@Parameter(name = "id", description = "Идентификатор читателя",
+                                                examples = {@ExampleObject(name = "Читатель №1", value = "1",
+                                                description = "Показать список выдачи книг у читателя с идентификатором \"1\""),
+                                                @ExampleObject(name = "Читатель №2", value = "2",
+                                                description = "Показать список выдачи книг у читателя с идентификатором \"2\"")}
+                                                ) Long id);
 }
