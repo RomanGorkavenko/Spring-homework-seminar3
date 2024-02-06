@@ -146,4 +146,14 @@ public class UiController {
     public String page403() {
         return "403";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logoutGet() {
+        return "logout";
+    }
 }

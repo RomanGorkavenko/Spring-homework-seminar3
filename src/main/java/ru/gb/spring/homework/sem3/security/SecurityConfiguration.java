@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -24,13 +25,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(registry -> registry
                         .anyRequest().permitAll()
                 )
-                .formLogin(Customizer.withDefaults())
-                .exceptionHandling(new Customizer<ExceptionHandlingConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer) {
-                        httpSecurityExceptionHandlingConfigurer.accessDeniedPage("/ui/403");
-                    }
-                })
+                .formLogin(form -> form.loginPage("/ui/login").permitAll().defaultSuccessUrl("/ui/books"))
+//                .formLogin(Customizer.withDefaults())
+                .exceptionHandling(accessDenied -> accessDenied.accessDeniedPage("/ui/403"))
+                .logout(form -> form.logoutSuccessUrl("/ui/login").permitAll())
                 .build();
     }
 

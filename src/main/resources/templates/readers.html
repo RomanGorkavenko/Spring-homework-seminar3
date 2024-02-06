@@ -3,10 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/style.css">
 
     <title>Readers</title>
@@ -38,8 +34,12 @@
         <h1>Список всех читателей:</h1>
         <ul th:each="reader: ${readers}">
             <li>
-                <a th:href="@{/ui/reader/{id}(id=${reader.getId()})}" th:if="${#authentication.getName().equals(reader.getName().toLowerCase())}" th:text="${reader.getName()}"></a>
+<!--                <a th:href="@{/ui/reader/{id}(id=${reader.getId()})}" th:if="${#authentication.getName().equals(reader.getName().toLowerCase())}" th:text="${reader.getName()}"></a>-->
                 <p th:text="${reader.getName()}" th:if="${not #authentication.getName().equals(reader.getName().toLowerCase())}"></p>
+                <form th:action="@{/ui/reader/{id}(id=${reader.getId()})}" method="get">
+                <button th:if="${#authentication.getName().equals(reader.getName().toLowerCase())}"
+                        th:text="${reader.getName()}"></button>
+                </form>
             </li>
         </ul>
     </div>
