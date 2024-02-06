@@ -1,3 +1,6 @@
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <!--разметка для нашего меню-->
 <div th:fragment="header">
     <!--разметка для логотипа-->
@@ -14,9 +17,9 @@
         </ul>
     </div>
 
-    <!--блок с авторизацией-->
-    <!--        <div class="block-top-auth">-->
-    <!--            <p><a href="#">Вход</a></p>-->
-    <!--            <p><a href="#">Регистрация</a></p>-->
-    <!--        </div>-->
+<!--&lt;!&ndash;    блок с авторизацией&ndash;&gt;-->
+<!--            <div class="block-top-auth">-->
+<!--                <p><a sec:authentication="name" th:href="@{/ui/reader/{name}(name=)}">Профиль</a></p>-->
+<!--                <p><a href="#">Регистрация</a></p>-->
+<!--            </div>-->
 </div>

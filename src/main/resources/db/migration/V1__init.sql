@@ -7,10 +7,10 @@ CREATE TABLE books
 
 CREATE TABLE issues
 (
-    book_id     BIGINT,
     id          BIGSERIAL NOT NULL,
-    issued_at   TIMESTAMP(6),
+    book_id     BIGINT,
     reader_id   BIGINT,
+    issued_at   TIMESTAMP(6),
     returned_at TIMESTAMP(6),
     primary key (id)
 );

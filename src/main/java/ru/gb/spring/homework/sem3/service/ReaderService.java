@@ -47,4 +47,9 @@ public class ReaderService {
         }
         return issuesByReader;
     }
+
+    public Reader findByName(String name) {
+        return repository.findByName(name)
+                .orElseThrow(() -> new NoSuchElementException("Не найден читатель с именем \"" + name + "\""));
+    }
 }
