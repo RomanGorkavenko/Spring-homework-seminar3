@@ -2,10 +2,13 @@ package ru.gb.spring.homework.sem3.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.event.Level;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.spring.homework.sem3.annotations.Loggable;
+import ru.gb.spring.homework.sem3.annotations.Timer;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
+@Timer
 @Controller
 @RequestMapping("/ui")
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class UiController {
      * Задание для 7 семинара
      * Ресурсы книг (books) доступны всем авторизованным пользователям
      */
+    @Loggable(level = Level.ERROR)
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/books")
     public String getAllBooks(Model model) {

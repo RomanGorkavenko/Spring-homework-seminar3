@@ -46,6 +46,8 @@ public class ReaderControllerImpl implements ReaderController{
     @GetMapping("/{id}/issues")
     public ResponseEntity<Set<Issue>> getIssuesByReader(@PathVariable("id") Long id) {
         Set<Issue> issues = service.getIssuesByReader(id);
+        service.returnedPrimitive();
+        service.returnedPrimitive2();
         return ResponseEntity.status(HttpStatus.OK).body(issues);
     }
 

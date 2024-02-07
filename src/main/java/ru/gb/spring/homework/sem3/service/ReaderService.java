@@ -2,6 +2,7 @@ package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.gb.spring.homework.sem3.annotations.RecoverException;
 import ru.gb.spring.homework.sem3.api.ReaderRequest;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
@@ -38,6 +39,7 @@ public class ReaderService {
         return reader;
     }
 
+    @RecoverException(noRecoverFor = {MaxAllowedBooksException.class})
     public Set<Issue> getIssuesByReader(Long id) {
         Reader reader = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Не найден читатель с идентификатором \"" + id + "\""));
@@ -51,5 +53,18 @@ public class ReaderService {
     public Reader findByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NoSuchElementException("Не найден читатель с именем \"" + name + "\""));
+    }
+
+    /**
+     *
+     */
+    @RecoverException(noRecoverFor = {})
+    public int returnedPrimitive() {
+        throw new NoSuchElementException("returnedPrimitive_int");
+    }
+
+    @RecoverException(noRecoverFor = {IllegalArgumentException.class})
+    public boolean returnedPrimitive2() {
+        throw new NoSuchElementException("returnedPrimitive_boolean");
     }
 }

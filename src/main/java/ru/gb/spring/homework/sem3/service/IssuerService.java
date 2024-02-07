@@ -2,6 +2,7 @@ package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.gb.spring.homework.sem3.annotations.Timer;
 import ru.gb.spring.homework.sem3.api.IssueRequest;
 import ru.gb.spring.homework.sem3.conf.IssueProperties;
 import ru.gb.spring.homework.sem3.model.Book;
@@ -76,6 +77,7 @@ public class IssuerService {
         return issueRepository.findAll();
     }
 
+    @Timer
     public List<Book> findBookByReaderAndReturnedAtNull(Reader reader) {
         return issueRepository.findBookByReaderAndReturnedAtNull(reader);
     }
