@@ -2,7 +2,8 @@ package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.gb.spring.homework.sem3.api.IssueRequest;
+import ru.gb.spring.homework.sem3.aop.annotations.Timer;
+import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
 import ru.gb.spring.homework.sem3.conf.IssueProperties;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
@@ -10,6 +11,7 @@ import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.repository.BookRepository;
 import ru.gb.spring.homework.sem3.repository.IssueRepository;
 import ru.gb.spring.homework.sem3.repository.ReaderRepository;
+import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 
 
 import java.time.LocalDateTime;
@@ -59,6 +61,7 @@ public class IssuerService {
         return issue;
     }
 
+    @Timer
     public Issue findById(Long id) {
         return issueRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Не найдена выдача книги с идентификатором \"" + id + "\""));
@@ -76,6 +79,7 @@ public class IssuerService {
         return issueRepository.findAll();
     }
 
+    @Timer
     public List<Book> findBookByReaderAndReturnedAtNull(Reader reader) {
         return issueRepository.findBookByReaderAndReturnedAtNull(reader);
     }

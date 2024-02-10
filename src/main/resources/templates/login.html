@@ -1,0 +1,44 @@
+<!doctype html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Readers</title>
+</head>
+<body>
+<div id="block-body">
+    <header th:insert="~{header :: header}"></header>
+    <div id="block-content" class="block-content">
+         <h1>Вход</h1>
+        <div class="container">
+            <form th:action="@{/ui/login}" method="post">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="name">Имя</label>
+                    </div>
+                    <div class="col-75">
+                        <label>
+                            <input type="text" id="name" name="username" placeholder="Введите имя пользователя."/>
+                        </label>
+                    </div>
+                    <div class="col-25">
+                        <label for="password">Пароль</label>
+                    </div>
+                    <div class="col-75">
+                        <label>
+                            <input type="password" id="password" name="password" placeholder="Введите пароль."/>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="submit" value="Войти">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

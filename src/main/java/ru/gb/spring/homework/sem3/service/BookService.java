@@ -1,8 +1,10 @@
 package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.event.Level;
 import org.springframework.stereotype.Service;
-import ru.gb.spring.homework.sem3.api.BookRequest;
+import ru.gb.spring.homework.sem3.aop.annotations.Loggable;
+import ru.gb.spring.homework.sem3.model.dto.BookRequest;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.repository.BookRepository;
 
@@ -15,6 +17,7 @@ public class BookService {
 
     private final BookRepository repository;
 
+    @Loggable(level = Level.WARN)
     public List<Book> findAll() {
         return repository.findAll();
     }

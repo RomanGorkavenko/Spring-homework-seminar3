@@ -70,11 +70,12 @@ header {
     color: white;
 }
 
-.block-content input[type=text], select, textarea {
+.block-content input[type=text], input[type=password], select, textarea {
     width: 600px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
     resize: vertical;
 }
 
@@ -97,7 +98,7 @@ header {
     background-color: rgba(255, 100, 31, 0.75);
 }
 
-.block-content li a:link {
+/*.block-content li a:link {
     background-color: white;
     font-size: 110%;
 }
@@ -112,6 +113,35 @@ header {
     background-color: rgba(255, 100, 31, 0.75);
     color: white;
     font-size: 150%;
+}*/
+
+.block-content li p {
+    text-align: left;
+}
+
+.block-content p {
+    text-align: left;
+}
+
+.block-content button {
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: rgb(65, 65, 65);
+    color: white;
+    border: 2px solid rgba(255, 100, 31, 0.75);
+    font-family: "Book Antiqua", sans-serif;
+    border-radius: 4px;
+}
+
+.block-content button:hover {
+    background-color: rgba(255, 100, 31, 0.75);
+    color: white;
 }
 
 .container {
@@ -147,7 +177,7 @@ header {
 .block-content tr:nth-child(even) {background-color: white;}
 
 .logo {
-    width: 200px;
+    width: 203px;
     float: left;
     height: 80px;
 }
@@ -177,7 +207,7 @@ header {
     color: white;
 }
 .top-menu {
-    width: 685px;
+    width: 832px;
     height: 80px;
     float: left;
 }
@@ -188,7 +218,7 @@ header {
 }
 .top-menu ul li a {
     display: block;
-    width: 220px;
+    width: 208px;
     text-decoration: none;
     font-family:  "Book Antiqua", sans-serif;
     font-size: 18px;
@@ -207,7 +237,8 @@ header {
     font-size: 20px;
     background: #b2aeb2;
 }
-.block-top-auth {
+
+/*.block-top-auth {
     width: 100px;
     float: left;
     margin-left: 40px;
@@ -233,5 +264,35 @@ header {
     -o-transition: all 0.5s ease;
     -ms-transition:all 0.5s ease;
     -moz-transition:all 0.5s ease;
-    color: #00ADE4;
+    color: rgba(255, 100, 31, 0.75);
+}*/
+
+#access-denied {
+    width: 1035px;
+    height: auto;
+    min-height: 600px;
+    margin-top: 100px;
+    margin-left: 0;
+    font-size: 1.2em;
+    font-family: "Book Antiqua", sans-serif;
+}
+
+.access-denied h1, p {
+    text-align: center;
+}
+
+.access-denied input[type=submit] {
+    background-color: rgb(65, 65, 65);
+    color: white;
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-left: 417px;
+}
+
+.access-denied input[type=submit]:hover {
+    background-color: rgba(255, 100, 31, 0.75);
 }

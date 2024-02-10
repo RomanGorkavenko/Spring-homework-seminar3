@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.api.interfaces;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
+import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
 
 import java.util.List;
 import java.util.Set;

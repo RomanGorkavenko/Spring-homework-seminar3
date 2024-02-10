@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

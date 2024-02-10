@@ -2,19 +2,27 @@ package ru.gb.spring.homework.sem3.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.event.Level;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.spring.homework.sem3.aop.annotations.Loggable;
+import ru.gb.spring.homework.sem3.aop.annotations.Timer;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
+import ru.gb.spring.homework.sem3.model.dto.BookRequest;
+import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
 import ru.gb.spring.homework.sem3.service.*;
+import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
+@Timer
 @Controller
 @RequestMapping("/ui")
 @RequiredArgsConstructor
@@ -31,6 +39,7 @@ public class UiController {
      * Задание для 7 семинара
      * Ресурсы книг (books) доступны всем авторизованным пользователям
      */
+    @Loggable(level = Level.ERROR)
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/books")
     public String getAllBooks(Model model) {
@@ -145,5 +154,15 @@ public class UiController {
     @GetMapping("/403")
     public String page403() {
         return "403";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logoutGet() {
+        return "logout";
     }
 }

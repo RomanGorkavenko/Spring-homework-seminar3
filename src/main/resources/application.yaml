@@ -17,4 +17,6 @@ spring:
 
 openapi:
   dev-url: http://localhost:8080
+#springdoc:
+#  show-login-endpoint: true
 
