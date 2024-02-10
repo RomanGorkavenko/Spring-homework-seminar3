@@ -1,16 +1,12 @@
-package ru.gb.spring.homework.sem3.annotations;
-
-import org.slf4j.event.Level;
+package ru.gb.spring.homework.sem3.aop.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Loggable {
-
-  Level level();
-
+public @interface RecoverException {
+    Class<? extends RuntimeException>[] noRecoverFor() default {};
 }

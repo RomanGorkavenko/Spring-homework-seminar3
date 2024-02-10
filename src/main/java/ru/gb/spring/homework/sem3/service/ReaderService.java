@@ -2,11 +2,13 @@ package ru.gb.spring.homework.sem3.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.gb.spring.homework.sem3.annotations.RecoverException;
-import ru.gb.spring.homework.sem3.api.ReaderRequest;
+import ru.gb.spring.homework.sem3.aop.annotations.RecoverException;
+import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.repository.ReaderRepository;
+import ru.gb.spring.homework.sem3.service.exception.IssuesByReaderException;
+import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 
 
 import java.util.List;

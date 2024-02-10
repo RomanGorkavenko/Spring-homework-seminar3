@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.api.interfaces.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.spring.homework.sem3.api.interfaces.BookController;
 import ru.gb.spring.homework.sem3.model.Book;
+import ru.gb.spring.homework.sem3.model.dto.BookRequest;
 import ru.gb.spring.homework.sem3.service.BookService;
 
 import java.util.List;

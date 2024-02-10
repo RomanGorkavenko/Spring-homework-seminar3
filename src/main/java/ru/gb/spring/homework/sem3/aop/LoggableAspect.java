@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.event.Level;
 import org.springframework.stereotype.Component;
-import ru.gb.spring.homework.sem3.annotations.Loggable;
+import ru.gb.spring.homework.sem3.aop.annotations.Loggable;
 
 import java.util.Arrays;
 
@@ -17,10 +17,10 @@ import java.util.Arrays;
 @Component
 public class LoggableAspect {
 
-  @Pointcut("within(@ru.gb.spring.homework.sem3.annotations.Loggable *)")
+  @Pointcut("within(@ru.gb.spring.homework.sem3.aop.annotations.Loggable *)")
   public void beansAnnotatedWith() {}
 
-  @Pointcut("@annotation(ru.gb.spring.homework.sem3.annotations.Loggable)")
+  @Pointcut("@annotation(ru.gb.spring.homework.sem3.aop.annotations.Loggable)")
   public void methodsAnnotatedWith() {}
 
   @Around("beansAnnotatedWith() || methodsAnnotatedWith()")

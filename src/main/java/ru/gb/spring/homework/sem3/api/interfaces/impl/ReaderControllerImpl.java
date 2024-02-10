@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.api.interfaces.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.service.IssuesByReaderException;
+import ru.gb.spring.homework.sem3.api.interfaces.ReaderController;
+import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.service.exception.IssuesByReaderException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.service.ReaderService;
@@ -19,7 +21,7 @@ import java.util.Set;
 @RequestMapping("/reader")
 @RequiredArgsConstructor
 @Tag(name = "Читатели", description = "Reader Api")
-public class ReaderControllerImpl implements ReaderController{
+public class ReaderControllerImpl implements ReaderController {
 
     private final ReaderService service;
 

@@ -8,22 +8,22 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
-import ru.gb.spring.homework.sem3.annotations.RecoverException;
+import ru.gb.spring.homework.sem3.aop.annotations.RecoverException;
 
 @Slf4j
 @Aspect
 @Component
 public class ExceptionAndTimerAspect {
 
-    @Pointcut("within(@ru.gb.spring.homework.sem3.annotations.* *)")
+    @Pointcut("within(@ru.gb.spring.homework.sem3.aop.annotations.* *)")
     public void beansAnnotatedWith() {
     }
 
-    @Pointcut("@annotation(ru.gb.spring.homework.sem3.annotations.Timer)")
+    @Pointcut("@annotation(ru.gb.spring.homework.sem3.aop.annotations.Timer)")
     public void methodsAnnotatedWithTimer() {
     }
 
-    @Pointcut("@annotation(ru.gb.spring.homework.sem3.annotations.RecoverException)")
+    @Pointcut("@annotation(ru.gb.spring.homework.sem3.aop.annotations.RecoverException)")
     public void methodsAnnotatedWithRecoverException() {
     }
 
@@ -41,18 +41,25 @@ public class ExceptionAndTimerAspect {
 
         StopWatch countdown = new StopWatch();
 
-        countdown.start();
-        Object result = proceedingJoinPoint.proceed();
-        countdown.stop();
+        Object result;
 
-        log.error("{}-{} #({} ms)", className, methodName, countdown.getTotalTimeMillis());
+        try {
+            countdown.start();
+            result = proceedingJoinPoint.proceed();
+            countdown.stop();
+            log.error("{}-{} #({} ms)", className, methodName, countdown.getTotalTimeMillis());
+        } catch (Exception e) {
+            countdown.stop();
+            log.error("{}-{} #({} ms)", className, methodName, countdown.getTotalTimeMillis());
+            throw e;
+        }
 
         return result;
     }
 
     /**
      * Задание для 8 семинара
-     *  2.* Создать аннотацию RecoverException, которую можно ставить только над методами.
+     * 2.* Создать аннотацию RecoverException, которую можно ставить только над методами.
      * У аннотации должен быть параметр noRecoverFor, в котором можно перечислить другие классы исключений.
      * Аннотация работает так: если во время исполнения метода был экспешн, то не прокидывать его выше
      * и возвращать из метода значение по умолчанию (null, 0, false, ...).
@@ -81,7 +88,7 @@ public class ExceptionAndTimerAspect {
                 }
             }
             if (signature.getMethod().getReturnType().isPrimitive()) {
-                if(signature.getMethod().getReturnType().getSimpleName().equals("boolean")) {
+                if (signature.getMethod().getReturnType().getSimpleName().equals("boolean")) {
                     log.warn("{} return=false", signature.getMethod().getReturnType());
                     return false;
                 } else {

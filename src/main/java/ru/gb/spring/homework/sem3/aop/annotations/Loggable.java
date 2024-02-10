@@ -1,4 +1,6 @@
-package ru.gb.spring.homework.sem3.annotations;
+package ru.gb.spring.homework.sem3.aop.annotations;
+
+import org.slf4j.event.Level;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Timer {
+public @interface Loggable {
+
+  Level level();
+
 }

@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.api.interfaces.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.service.MaxAllowedBooksException;
+import ru.gb.spring.homework.sem3.aop.annotations.Timer;
+import ru.gb.spring.homework.sem3.api.interfaces.IssuerController;
+import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.service.IssuerService;
 
@@ -15,7 +18,7 @@ import ru.gb.spring.homework.sem3.service.IssuerService;
 @RequestMapping("/issue")
 @RequiredArgsConstructor
 @Tag(name = "Выдача книг", description = "Issue API")
-public class IssuerControllerImpl implements IssuerController{
+public class IssuerControllerImpl implements IssuerController {
 
     private final IssuerService service;
 
@@ -38,6 +41,7 @@ public class IssuerControllerImpl implements IssuerController{
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @Timer
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<Issue> findById(@PathVariable("id") Long id) {
