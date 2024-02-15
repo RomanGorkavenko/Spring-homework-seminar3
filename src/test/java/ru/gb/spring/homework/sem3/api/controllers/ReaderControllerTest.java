@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.controllers.impl;
+package ru.gb.spring.homework.sem3.api.controllers;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import ru.gb.spring.homework.sem3.api.controllers.JUnitSpringBootTestBase;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
