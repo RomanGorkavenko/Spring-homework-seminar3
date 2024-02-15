@@ -3,7 +3,7 @@ package ru.gb.spring.homework.sem3.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.spring.homework.sem3.aop.annotations.Timer;
-import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.api.dto.IssueRequest;
 import ru.gb.spring.homework.sem3.conf.IssueProperties;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;

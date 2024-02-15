@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces.impl;
+package ru.gb.spring.homework.sem3.api.controllers.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.api.interfaces.ReaderController;
-import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.controllers.ReaderController;
+import ru.gb.spring.homework.sem3.api.dto.ReaderRequest;
 import ru.gb.spring.homework.sem3.service.exception.IssuesByReaderException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;

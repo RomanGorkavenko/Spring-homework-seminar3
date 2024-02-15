@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces;
+package ru.gb.spring.homework.sem3.api.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,8 +9,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import ru.gb.spring.homework.sem3.api.dto.BookDto;
 import ru.gb.spring.homework.sem3.model.Book;
-import ru.gb.spring.homework.sem3.model.dto.BookRequest;
+import ru.gb.spring.homework.sem3.api.dto.BookRequest;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface BookController {
             @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Book.class)))
     })})
-    List<Book> findAll();
+    List<BookDto> findAll();
 
     /**
      * Задание для 3 семинара
@@ -44,7 +45,7 @@ public interface BookController {
                             schema = @Schema(example = "Не найдена книга с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Book> findById(@Parameter(name = "id", description = "Идентификатор книги",
+    ResponseEntity<BookDto> findById(@Parameter(name = "id", description = "Идентификатор книги",
                                  examples = {@ExampleObject(name = "Книга №1", value = "1",
                                  description = "Найти книгу с идентификатором \"1\""),
                                  @ExampleObject(name = "Книга №2", value = "2",
@@ -68,7 +69,7 @@ public interface BookController {
                             schema = @Schema(example = "Не найдена книга с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Book> delete(@Parameter(name = "id", description = "Идентификатор книги",
+    ResponseEntity<BookDto> delete(@Parameter(name = "id", description = "Идентификатор книги",
                                examples = {@ExampleObject(name = "Книга №1", value = "1",
                                description = "Удалить книгу с идентификатором \"1\""),
                                @ExampleObject(name = "Книга №2", value = "2",
@@ -87,5 +88,5 @@ public interface BookController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))
             })
     })
-    ResponseEntity<Book> add(BookRequest request);
+    ResponseEntity<BookDto> add(BookRequest request);
 }

@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api;
+package ru.gb.spring.homework.sem3.api.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +12,9 @@ import ru.gb.spring.homework.sem3.aop.annotations.Timer;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
-import ru.gb.spring.homework.sem3.model.dto.BookRequest;
-import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
-import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.dto.BookRequest;
+import ru.gb.spring.homework.sem3.api.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.api.dto.ReaderRequest;
 import ru.gb.spring.homework.sem3.service.*;
 import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 

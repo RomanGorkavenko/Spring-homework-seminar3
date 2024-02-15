@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces.impl;
+package ru.gb.spring.homework.sem3.api.controllers.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.aop.annotations.Timer;
-import ru.gb.spring.homework.sem3.api.interfaces.IssuerController;
-import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.api.controllers.IssuerController;
+import ru.gb.spring.homework.sem3.api.dto.IssueRequest;
 import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.service.IssuerService;
