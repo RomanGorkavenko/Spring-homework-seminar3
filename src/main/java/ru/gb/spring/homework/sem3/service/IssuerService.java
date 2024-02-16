@@ -14,7 +14,7 @@ import ru.gb.spring.homework.sem3.repository.ReaderRepository;
 import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -70,7 +70,7 @@ public class IssuerService {
     public Issue updateIssueReturnedAt(Long id) {
         Issue issue = issueRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Не найдена выдача книги с идентификатором \"" + id + "\""));
-        issue.setReturnedAt(LocalDateTime.now());
+        issue.setReturnedAt(LocalDate.now());
         issueRepository.save(issue);
         return issue;
     }

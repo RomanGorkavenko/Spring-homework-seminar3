@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import ru.gb.spring.homework.sem3.api.dto.IssueResponse;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.api.dto.IssueRequest;
 
@@ -32,7 +33,7 @@ public interface IssuerController {
                             schema = @Schema(example = "Достигнут лимит книг читателем с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Issue> issueBook(IssueRequest request);
+    ResponseEntity<IssueResponse> issueBook(IssueRequest request);
 
     /**
      * Задание для 3 семинара
@@ -52,7 +53,7 @@ public interface IssuerController {
                             schema = @Schema(example = "Не найдена выдача книги с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Issue> findById(@Parameter(name = "id", description = "Идентификатор выдачи",
+    ResponseEntity<IssueResponse> findById(@Parameter(name = "id", description = "Идентификатор выдачи",
                                   examples = {@ExampleObject(name = "Первая выдача", value = "1",
                                   description = "Найти выдачу книги с идентификатором \"1\""),
                                   @ExampleObject(name = "Вторая выдача", value = "2",
@@ -78,7 +79,7 @@ public interface IssuerController {
                             schema = @Schema(example = "Не найдена выдача книги с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Issue> updateIssueReturnedAt(@Parameter(name = "id", description = "Идентификатор выдачи",
+    ResponseEntity<IssueResponse> updateIssueReturnedAt(@Parameter(name = "id", description = "Идентификатор выдачи",
                                                 examples = {@ExampleObject(name = "Первая выдача", value = "1",
                                                 description = "Обновить дату возврата книги с идентификатором \"1\""),
                                                 @ExampleObject(name = "Вторая выдача", value = "2",

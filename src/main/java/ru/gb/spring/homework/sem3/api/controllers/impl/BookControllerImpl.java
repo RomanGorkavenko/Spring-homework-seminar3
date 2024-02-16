@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.api.controllers.BookController;
-import ru.gb.spring.homework.sem3.api.dto.BookDto;
+import ru.gb.spring.homework.sem3.api.dto.BookResponse;
 import ru.gb.spring.homework.sem3.api.mappers.BookMapper;
 import ru.gb.spring.homework.sem3.model.Book;
 import ru.gb.spring.homework.sem3.api.dto.BookRequest;
@@ -28,28 +28,28 @@ public class BookControllerImpl implements BookController {
 
     @Override
     @GetMapping
-    public List<BookDto> findAll() {
+    public List<BookResponse> findAll() {
         List<Book> books = service.findAll();
         return mapper.toDto(books);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<BookResponse> findById(@PathVariable("id") Long id) {
         Book book = service.findById(id);
         return ResponseEntity.ok(mapper.toDto(book));
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookDto> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<BookResponse> delete(@PathVariable("id") Long id) {
         Book book = service.delete(id);
         return ResponseEntity.ok(mapper.toDto(book));
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<BookDto> add(@RequestBody BookRequest request) {
+    public ResponseEntity<BookResponse> add(@RequestBody BookRequest request) {
         Book book = service.add(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(book));
     }
