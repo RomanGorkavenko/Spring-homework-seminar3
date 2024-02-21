@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces.impl;
+package ru.gb.spring.homework.sem3.api.controllers.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.spring.homework.sem3.api.interfaces.ReaderController;
-import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.controllers.ReaderController;
+import ru.gb.spring.homework.sem3.api.dto.IssueResponse;
+import ru.gb.spring.homework.sem3.api.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.dto.ReaderResponse;
+import ru.gb.spring.homework.sem3.api.mappers.ReaderMapper;
 import ru.gb.spring.homework.sem3.service.exception.IssuesByReaderException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
@@ -24,11 +27,12 @@ import java.util.Set;
 public class ReaderControllerImpl implements ReaderController {
 
     private final ReaderService service;
+    private final ReaderMapper mapper;
 
     @Override
     @GetMapping
-    public List<Reader> findAll() {
-        return service.findAll();
+    public List<ReaderResponse> findAll() {
+        return mapper.toDto(service.findAll());
     }
 
     @Override
@@ -40,17 +44,18 @@ public class ReaderControllerImpl implements ReaderController {
 
     @Override
     @PostMapping
-    public ResponseEntity<Reader> add(@RequestBody ReaderRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(request));
+    public ResponseEntity<ReaderResponse> add(@RequestBody ReaderRequest request) {
+        Reader reader = service.add(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(reader));
     }
 
     @Override
     @GetMapping("/{id}/issues")
-    public ResponseEntity<Set<Issue>> getIssuesByReader(@PathVariable("id") Long id) {
+    public ResponseEntity<Set<IssueResponse>> getIssuesByReader(@PathVariable("id") Long id) {
         Set<Issue> issues = service.getIssuesByReader(id);
         service.returnedPrimitive();
         service.returnedPrimitive2();
-        return ResponseEntity.status(HttpStatus.OK).body(issues);
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDto(issues));
     }
 
     @ExceptionHandler(IssuesByReaderException.class)
@@ -61,8 +66,8 @@ public class ReaderControllerImpl implements ReaderController {
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Reader> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<ReaderResponse> findById(@PathVariable("id") Long id) {
         Reader reader = service.findById(id);
-        return ResponseEntity.ok(reader);
+        return ResponseEntity.ok(mapper.toDto(reader));
     }
 }

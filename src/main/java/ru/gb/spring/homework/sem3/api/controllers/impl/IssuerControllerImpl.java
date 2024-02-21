@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces.impl;
+package ru.gb.spring.homework.sem3.api.controllers.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring.homework.sem3.aop.annotations.Timer;
-import ru.gb.spring.homework.sem3.api.interfaces.IssuerController;
-import ru.gb.spring.homework.sem3.model.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.api.controllers.IssuerController;
+import ru.gb.spring.homework.sem3.api.dto.IssueRequest;
+import ru.gb.spring.homework.sem3.api.dto.IssueResponse;
+import ru.gb.spring.homework.sem3.api.mappers.IssueMapper;
 import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.service.IssuerService;
@@ -21,13 +23,14 @@ import ru.gb.spring.homework.sem3.service.IssuerService;
 public class IssuerControllerImpl implements IssuerController {
 
     private final IssuerService service;
+    private final IssueMapper mapper;
 
     @Override
     @PostMapping
-    public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest request) {
+    public ResponseEntity<IssueResponse> issueBook(@RequestBody IssueRequest request) {
         log.info("Получен запрос на выдачу: readerId = {}, bookId = {}", request.getReaderId(), request.getBookId());
         Issue issue = service.issue(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(issue);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(issue));
     }
 
     /**
@@ -44,15 +47,15 @@ public class IssuerControllerImpl implements IssuerController {
     @Timer
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Issue> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<IssueResponse> findById(@PathVariable("id") Long id) {
         Issue issue = service.findById(id);
-        return ResponseEntity.ok(issue);
+        return ResponseEntity.ok(mapper.toDto(issue));
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Issue> updateIssueReturnedAt(@PathVariable("id") Long id) {
+    public ResponseEntity<IssueResponse> updateIssueReturnedAt(@PathVariable("id") Long id) {
         Issue issue = service.updateIssueReturnedAt(id);
-        return ResponseEntity.ok(issue);
+        return ResponseEntity.ok(mapper.toDto(issue));
     }
 }

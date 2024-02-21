@@ -1,4 +1,4 @@
-package ru.gb.spring.homework.sem3.api.interfaces;
+package ru.gb.spring.homework.sem3.api.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import ru.gb.spring.homework.sem3.api.dto.IssueResponse;
+import ru.gb.spring.homework.sem3.api.dto.ReaderResponse;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
-import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.dto.ReaderRequest;
 
 import java.util.List;
 import java.util.Set;
@@ -35,7 +37,7 @@ public interface ReaderController {
                             schema = @Schema(example = "Не найден читатель с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Reader> findById(@Parameter(name = "id", description = "Идентификатор читателя",
+    ResponseEntity<ReaderResponse> findById(@Parameter(name = "id", description = "Идентификатор читателя",
                                    examples = {@ExampleObject(name = "Читатель №1", value = "1",
                                    description = "Найти читателя с идентификатором \"1\""),
                                    @ExampleObject(name = "Читатель №2", value = "2",
@@ -51,7 +53,7 @@ public interface ReaderController {
             @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Reader.class)))
     })})
-    List<Reader> findAll();
+    List<ReaderResponse> findAll();
 
     /**
      * Задание для 3 семинара
@@ -89,7 +91,7 @@ public interface ReaderController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = Reader.class))
             })
     })
-    ResponseEntity<Reader> add(ReaderRequest request);
+    ResponseEntity<ReaderResponse> add(ReaderRequest request);
 
     /**
      * Задание для 3 семинара
@@ -110,7 +112,7 @@ public interface ReaderController {
                                     "Не найдены выдачи книг у читателя с идентификатором \"ID\""))
             })
     })
-    ResponseEntity<Set<Issue>> getIssuesByReader(@Parameter(name = "id", description = "Идентификатор читателя",
+    ResponseEntity<Set<IssueResponse>> getIssuesByReader(@Parameter(name = "id", description = "Идентификатор читателя",
                                                 examples = {@ExampleObject(name = "Читатель №1", value = "1",
                                                 description = "Показать список выдачи книг у читателя с идентификатором \"1\""),
                                                 @ExampleObject(name = "Читатель №2", value = "2",

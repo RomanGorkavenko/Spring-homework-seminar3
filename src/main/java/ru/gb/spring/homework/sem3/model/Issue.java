@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -37,15 +37,15 @@ public class Issue {
      * 3.1* В Issue поле timestamp разбить на 2: issued_at, returned_at - дата выдачи и дата возврата
      */
     @Schema(title = "Дата выдачи", example = "2024-01-26")
-    private LocalDateTime issuedAt;
+    private LocalDate issuedAt;
 
     @Schema(title = "Дата возврата", example = "2024-01-28")
-    private LocalDateTime returnedAt;
+    private LocalDate returnedAt;
 
     public Issue(Book book, Reader reader) {
         this.book = book;
         this.reader = reader;
-        this.issuedAt = LocalDateTime.now();
+        this.issuedAt = LocalDate.now();
         this.returnedAt = null;
     }
 

@@ -3,12 +3,11 @@ package ru.gb.spring.homework.sem3.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.spring.homework.sem3.aop.annotations.RecoverException;
-import ru.gb.spring.homework.sem3.model.dto.ReaderRequest;
+import ru.gb.spring.homework.sem3.api.dto.ReaderRequest;
 import ru.gb.spring.homework.sem3.model.Issue;
 import ru.gb.spring.homework.sem3.model.Reader;
 import ru.gb.spring.homework.sem3.repository.ReaderRepository;
 import ru.gb.spring.homework.sem3.service.exception.IssuesByReaderException;
-import ru.gb.spring.homework.sem3.service.exception.MaxAllowedBooksException;
 
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class ReaderService {
         return reader;
     }
 
-    @RecoverException(noRecoverFor = {MaxAllowedBooksException.class})
+//    @RecoverException(noRecoverFor = {MaxAllowedBooksException.class})
     public Set<Issue> getIssuesByReader(Long id) {
         Reader reader = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Не найден читатель с идентификатором \"" + id + "\""));
