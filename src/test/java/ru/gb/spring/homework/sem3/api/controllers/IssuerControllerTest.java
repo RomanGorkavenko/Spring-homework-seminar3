@@ -3,6 +3,7 @@ package ru.gb.spring.homework.sem3.api.controllers;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import ru.gb.spring.homework.sem3.model.Book;
@@ -89,7 +90,7 @@ class IssuerControllerTest extends JUnitSpringBootTestBase{
                 .uri("/issue")
                 .bodyValue(request)
                 .exchange()
-                .expectStatus().is4xxClientError();
+                .expectStatus().isEqualTo(HttpStatus.CONFLICT);
     }
 
     @Test
